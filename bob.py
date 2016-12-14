@@ -43,14 +43,14 @@ print('[BOB] connection address:', address)
 waiting_for_hash = False
 message = ''
 while True:
-        data = connection.recv(buffer_size)
-        if not data: break
-        print("[BOB] I received ", data)
-        if waiting_for_hash:
-            hash = data
-            verify(message,signature=data)
-        else:
-            waiting_for_hash = True
-            message = data
-        connection.send(data)
+    data = connection.recv(buffer_size)
+    if not data: break
+    print("[BOB] I received ", data)
+    if waiting_for_hash:
+        hash = data
+        verify(message,signature=data)
+    else:
+        waiting_for_hash = True
+        message = data
+    connection.send(data)
 connection.close()
