@@ -1,0 +1,10 @@
+### Instructions pour mettre en place l'image docker ###
+
+$ docker pull erennor/securite
+$ sudo service docker start
+$ docker start securite_python_rsa
+$ docker attach securite_python_rsa
+$
+$ cd /home/securite_python_rsa
+$ ./run.sh old
+$ ./run.sh new
