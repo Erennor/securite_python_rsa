@@ -5,6 +5,9 @@ $ sudo service docker start
 $ docker start securite_python_rsa
 $ docker attach securite_python_rsa
 $
+
+Appuyer sur entree pour faire apparaitre la ligne de commande
+
 $ cd /home/securite_python_rsa
 $ ./run.sh old
 $ ./run.sh new
