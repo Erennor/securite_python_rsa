@@ -1,13 +1,15 @@
 ### Instructions pour mettre en place l'image docker ###
 
+L'image docker se trouve dans le dépôt : erennor/securite
 $ docker pull erennor/securite
-$ sudo service docker start
-$ docker start securite_python_rsa
-$ docker attach securite_python_rsa
-$
+$ docker attach <newly downloaded image>
 
-Appuyer sur entree pour faire apparaitre la ligne de commande
+Les scripts se trouvent dans le dossier /home/securite_python_rsa du docker
 
 $ cd /home/securite_python_rsa
+
+Pour lancer les scripts avec la version de python-rsa défaillante :
 $ ./run.sh old
+
+Pour lancer les scripts avec la version de python-rsa corrigée :
 $ ./run.sh new
