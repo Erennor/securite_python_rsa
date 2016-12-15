@@ -44,9 +44,9 @@ print(bcolors.BOLD + "\n----- Crafting fake signature -----\n" + bcolors.ENDC)
 TCP_IP = 'localhost'
 TCP_PORT = 5005
 BUFFER_SIZE = 1024
-MESSAGE = 'Bonjour, je suis Alice!'.encode('ascii')
-HASH = 'NOT AN HASH'
-message_hash = hashlib.sha256(MESSAGE).digest()
+MESSAGE = 'Bonjour, je suis Alice'.encode('ascii')
+ALEA = 'Bonjour !'.encode('ascii')
+message_hash = hashlib.sha256(ALEA).digest()
 ASN1_blob = rsa.pkcs1.HASH_ASN1['SHA-256']
 suffix = b'\x00' + ASN1_blob + message_hash
 
@@ -65,11 +65,17 @@ while True:
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((TCP_IP, TCP_PORT))
+
 s.send(MESSAGE)
-print("[OSCAR] sent to Bob : ", MESSAGE)
+print("[OSCAR] sent to Bob : ", MESSAGE) # 1st contact
+
 data = s.recv(BUFFER_SIZE)
 print("[OSCAR] received : ", data)
-print("[OSCAR] sent to Bob the signature : ", sig, "\n")
+
+s.send(ALEA)
+print("[OSCAR] sent to Bob an alea message : ", ALEA, "\n") # Sending an alea message
+
+print("[OSCAR] sent to Bob the signature : ", sig, "\n") # Sending the signature
 s.send(sig)
 data = s.recv(BUFFER_SIZE)
 s.close()

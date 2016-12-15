@@ -19,6 +19,8 @@ elif sys.argv[1] == "new":
 #Importing chosen rsa package
 import rsa
 
+authentification = False
+
 # Colors for writting in terminal
 class bcolors:
     HEADER = '\033[95m'
@@ -42,6 +44,7 @@ def verify(message, signature):
         rsa.verify(message, signature, pubkey)
         print(bcolors.GREEN + bcolors.BOLD + "[BOB] Python verify signature : PASSED" + bcolors.ENDC)
         print(bcolors.GREEN + bcolors.BOLD + "[BOB] I identify my contact as Alice" + bcolors.ENDC)
+        authentification = True
     except:
         print(bcolors.FAIL + bcolors.BOLD + "[BOB] Python verify signature : FAILED" + bcolors.ENDC)
         print(bcolors.FAIL + bcolors.BOLD + "[BOB] I do not recognize my contact as Alice" + bcolors.ENDC)
@@ -58,24 +61,21 @@ connection, address = s.accept()
 print('[BOB] connection address:', address)
 waiting_for_hash = False
 message = ''
-verif = False
 
 while True:
     data = connection.recv(buffer_size)
     if not data: break
-    print("[BOB] received the signature : ", data)
+    print("[BOB] received a message : ", data)
 
-    if waiting_for_hash:
-        hash = data
-        print(bcolors.BOLD + "\n----- Verification of the signature -----\n" + bcolors.ENDC)
-        verify(message,signature=data)
-    else:
-        waiting_for_hash = True
-        message = data
-    if verif == False:
+    if authentification == False:
         connection.send("Prouve-le".encode('ASCII'))
         print("[BOB] sent to Oscar : Prouve-le")
-        verif = True
+        alea = connection.recv(buffer_size)
+        print("[BOB] received the alea message : ", alea)
+        sig = connection.recv(buffer_size)
+        print("[BOB] received the signature : ", sig)
+        print(bcolors.BOLD + "\n----- Verification of the signature -----\n" + bcolors.ENDC)
+        verify(alea, signature=sig)
+        connection.close() # Forcing to close connection in order to free the port
+        break
     else: break
-
-connection.close()
